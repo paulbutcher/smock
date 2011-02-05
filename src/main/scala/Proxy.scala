@@ -11,6 +11,6 @@ object Proxy {
         throw new ExpectationException(method.getName + " invoked")
       }
     }
-    JavaProxy.newProxyInstance(clazz.getClassLoader, Array(clazz), handler)
+    JavaProxy.newProxyInstance(clazz.getClassLoader, Array(clazz, classOf[Mock]), handler)
   }
 }
