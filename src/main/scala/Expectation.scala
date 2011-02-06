@@ -21,7 +21,7 @@ class Expectation(val name: Symbol) {
   def withArgs(args: Any*) = this //! TODO
   
   def returns(value: AnyRef) = {
-    invocations += value
+    invocations.addReturnValue(value)
     this
   }
   

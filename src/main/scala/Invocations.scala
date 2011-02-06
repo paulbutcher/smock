@@ -4,7 +4,7 @@ import scala.collection.mutable.ListBuffer
 
 class Invocations {
   
-  def +=(returnValue: AnyRef) {
+  def addReturnValue(returnValue: AnyRef) {
     if (!invocations.isEmpty)
       invocations.last.setNotForever
 
