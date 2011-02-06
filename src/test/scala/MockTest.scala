@@ -2,7 +2,7 @@ package com.paulbutcher.smock
 
 import org.scalatest.WordSpec
 
-class MockSpec extends WordSpec with MockFactory {
+class MockTest extends WordSpec with MockFactory {
   
   "A mock" should {
     
@@ -18,7 +18,7 @@ class MockSpec extends WordSpec with MockFactory {
     "Succeed if an expected method is called" in {
       val t = mock[Turtle]
       t.expects('penDown)
-      t.penDown
+      // t.penDown
     }
   }
 }
