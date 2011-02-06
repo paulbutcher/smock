@@ -9,9 +9,8 @@ trait MockFactory extends BeforeAndAfterEach { this: Suite =>
   }
   
   override def afterEach() {
-    if (autoVerify) {
-      //! TODO - verify expectations
-    }
+    if (autoVerify)
+      verifyExpectations
   }
   
   protected trait Mock {
