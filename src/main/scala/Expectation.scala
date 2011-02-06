@@ -32,7 +32,7 @@ class Expectation(val name: Symbol) {
   def nextReturnValue = try {
     returnValues.next
   } catch {
-    case e: NoSuchElementException => throw new ExpectationException("put a sensible message here")
+    case _: NoSuchElementException => throw new ExpectationException("put a sensible message here")
   }
   
   def verify() {
