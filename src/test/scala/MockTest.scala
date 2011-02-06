@@ -137,5 +137,11 @@ class MockTest extends WordSpec with MockFactory {
       t.expects('setPosition).withArgs(1.0, 2.0)
       intercept[ExpectationException] { t.setPosition(1.0, 3.0) }
     }
+    
+    "mix arguments and returns" in {
+      val t = mock[Turtle]
+      t.expects('forward).withArgs(10.0).returns((10.0, 0.0))
+      expect((10.0, 0.0)) { t.forward(10.0) }
+    }
   }
 }

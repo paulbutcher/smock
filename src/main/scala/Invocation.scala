@@ -2,10 +2,13 @@ package com.paulbutcher.smock
 
 class Invocation {
   
+  def hasReturnValue = returnValue != null
   def setReturnValue(v: AnyRef) { returnValue = v }
   
+  def hasException = exception != null
   def setException(e: Throwable) { exception = e }
   
+  def hasArguments = expectedArguments != null
   def setArguments(a: Seq[AnyRef]) { expectedArguments = a }
   
   def exhausted = !repeatForever && actual >= expected
