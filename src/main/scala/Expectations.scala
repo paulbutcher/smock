@@ -15,4 +15,8 @@ class Expectations {
       case None => throw new ExpectationException(name +" not expected")
     }
   }
+  
+  def verify() {
+    expectations.foreach(_.verify)
+  }
 }

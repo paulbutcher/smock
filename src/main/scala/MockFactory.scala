@@ -9,7 +9,9 @@ trait MockFactory extends BeforeAndAfterEach { this: Suite =>
   }
   
   override def afterEach() {
-    //! TODO - verify expectations
+    if (autoVerify) {
+      //! TODO - verify expectations
+    }
   }
   
   protected trait Mock {
@@ -24,6 +26,14 @@ trait MockFactory extends BeforeAndAfterEach { this: Suite =>
       }
     }.asInstanceOf[T with Mock]
   }
+  
+  protected def disableAutoVerify() {
+    autoVerify = false
+  }
+  
+  protected def verifyExpectations() {
+    expectations.verify
+  }
 
   private var expectations: Expectations = _
   
@@ -32,4 +42,6 @@ trait MockFactory extends BeforeAndAfterEach { this: Suite =>
     expectations.add(expectation)
     expectation
   }
+  
+  private var autoVerify = true
 }

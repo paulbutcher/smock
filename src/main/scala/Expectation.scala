@@ -35,5 +35,9 @@ class Expectation(val name: Symbol) {
     case e: NoSuchElementException => throw new ExpectationException("put a sensible message here")
   }
   
+  def verify() {
+    returnValues.verify
+  }
+  
   private val returnValues = new ReturnValues
 }

@@ -3,11 +3,13 @@ package com.paulbutcher.smock
 import org.scalatest.WordSpec
 
 class MockTest extends WordSpec with MockFactory {
+
+  disableAutoVerify
   
   "A mock" should {
     
     "succeed if no expectations are setup and no methods are called" in {
-      val t = mock[Turtle]
+      verifyExpectations
     }
     
     "fail if an unexpected method is called" in {
@@ -19,6 +21,7 @@ class MockTest extends WordSpec with MockFactory {
       val t = mock[Turtle]
       t.expects('penDown)
       t.penDown
+      verifyExpectations
     }
     
     "verify that a method is called the right number of times" in {
@@ -101,6 +104,20 @@ class MockTest extends WordSpec with MockFactory {
       expect((3.0, 4.0)) { t.getPosition }
       expect((3.0, 4.0)) { t.getPosition }
       intercept[ExpectationException] { t.getPosition }
+    }
+    
+    "fail if an expected method is not called" in {
+      val t = mock[Turtle]
+      t.expects('penDown)
+      intercept[ExpectationException] { verifyExpectations }
+    }
+    
+    "fail if a method is not called enough times" in {
+      val t = mock[Turtle]
+      t.expects('penDown).times(3)
+      t.penDown
+      t.penDown
+      intercept[ExpectationException] { verifyExpectations }
     }
   }
 }

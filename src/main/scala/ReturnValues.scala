@@ -19,6 +19,8 @@ class ReturnValue(value: AnyRef = null) {
   }
   
   def setNotForever() { repeatForever = false }
+  
+  def isSatisfied = (repeatForever && actual > 0) || actual == expected
     
   private var repeatForever = true
   private var expected = 1
@@ -48,6 +50,14 @@ class ReturnValues {
       current = iterator.next
       current.next
     }
+  }
+  
+  def verify() {
+    defaultIfNecessary
+
+    for (value <- values)
+      if (!value.isSatisfied)
+        throw new ExpectationException("put a sensible message here")
   }
   
   private def defaultIfNecessary() {
