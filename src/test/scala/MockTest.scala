@@ -20,5 +20,12 @@ class MockTest extends WordSpec with MockFactory {
       t.expects('penDown)
       t.penDown
     }
+    
+    "Return a value from a mock" in {
+      val t = mock[Turtle]
+      val retval = (10.0, 1.2)
+      t.expects('getPosition).returns(retval)
+      expect(retval) { t.getPosition }
+    }
   }
 }

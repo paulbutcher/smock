@@ -10,8 +10,9 @@ class Expectations {
   }
   
   def handle(name: Symbol, args: Array[AnyRef]) = {
-    if (!expectations.exists(_.name == name))
-      throw new ExpectationException(name +" not expected")
-    null
+    expectations.find(_.name == name) match {
+      case Some(expectation) => expectation.getNextReturnValue
+      case None => throw new ExpectationException(name +" not expected")
+    }
   }
 }

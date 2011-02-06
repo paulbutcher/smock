@@ -16,9 +16,16 @@ class Expectation(val name: Symbol) {
   
   def withArgs(args: Any*) = this //! TODO
   
-  def returns(value: Any) = this //! TODO
+  def returns(value: AnyRef) = {
+    returnValue = value
+    this
+  }
   
   def throws(exception: Throwable) = this //! TODO
   
   def then() = this
+  
+  def getNextReturnValue = returnValue
+  
+  private var returnValue: AnyRef = _
 }
