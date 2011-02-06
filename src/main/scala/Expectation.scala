@@ -1,9 +1,10 @@
 package com.paulbutcher.smock
 
-class Expectation(name: Symbol) {
+class Expectation(val name: Symbol) {
   
   def times(n: Int) = this //! TODO
   def times(range: Range) = this //! TODO
+  def never() = times(0)
   def once() = times(1)
   def twice() = times(2)
   

@@ -1,8 +1,16 @@
 package com.paulbutcher.smock
 
-import org.scalatest.Suite
+import org.scalatest.{BeforeAndAfterEach, Suite}
 
-trait MockFactory { this: Suite =>
+trait MockFactory extends BeforeAndAfterEach { this: Suite =>
+  
+  override def beforeEach() {
+    expectations = new Expectations
+  }
+  
+  override def afterEach() {
+    //! TODO - verify expectations
+  }
   
   protected trait Mock {
     def expects(name: Symbol): Expectation
@@ -11,13 +19,13 @@ trait MockFactory { this: Suite =>
   protected def mock[T: ClassManifest] = {
     Proxy.create(classManifest[T].erasure, classOf[Mock]) { (name: Symbol, args: Array[AnyRef]) =>
       name match {
-        case 'expects => createExpectation(Symbol(args(0).asInstanceOf[String]))
-        case _ => throw new ExpectationException(name +" not expected")
+        case 'expects => createExpectation(args(0).asInstanceOf[Symbol])
+        case _ => expectations.handle(name, args)
       }
     }.asInstanceOf[T with Mock]
   }
 
-  private val expectations = new Expectations
+  private var expectations: Expectations = _
   
   private def createExpectation(name: Symbol) = {
     val expectation = new Expectation(name)
