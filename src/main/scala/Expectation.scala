@@ -1,6 +1,6 @@
 package com.paulbutcher.smock
 
-class Expectation(mock: Mock, name: Symbol) {
+class Expectation(name: Symbol) {
   
   def times(n: Int) = this //! TODO
   def times(range: Range) = this //! TODO

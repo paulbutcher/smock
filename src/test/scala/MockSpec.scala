@@ -2,22 +2,15 @@ package com.paulbutcher.smock
 
 import org.scalatest.WordSpec
 
-class MockSpec extends WordSpec {
+class MockSpec extends WordSpec with MockFactory {
   
   "A mock" should {
-    "Fail if any method is called when no expectations are set" in {
-      val t = mock[Turtle]
-      intercept[ExpectationException] { t.penDown }
-    }
     
     "Succeed if an expected method is called" in {
+      
       val t = mock[Turtle]
-
-      ensure { expectations: Expectations =>
-        t.receives('penDown)(expectations)
-      } in {
-        t.penDown
-      }
+      t.expects('penDown).once
+      t.penDown
     }
   }
 }
