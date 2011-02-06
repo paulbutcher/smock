@@ -2,12 +2,16 @@ package com.paulbutcher.smock
 
 class Expectation(val name: Symbol) {
   
-  def times(n: Int) = this //! TODO
-  def times(range: Range) = this //! TODO
+  def times(n: Int) = {
+    returnValues.setCount(n)
+    this
+  }
   def never() = times(0)
   def once() = times(1)
   def twice() = times(2)
   
+  def times(range: Range) = this //! TODO
+
   def atLeast(n: Int) = this //! TODO
   def atLeastOnce() = atLeast(1)
   
@@ -25,7 +29,11 @@ class Expectation(val name: Symbol) {
   
   def then() = this
   
-  def nextReturnValue = returnValues.next
+  def nextReturnValue = try {
+    returnValues.next
+  } catch {
+    case e: NoSuchElementException => throw new ExpectationException("put a sensible message here")
+  }
   
   private val returnValues = new ReturnValues
 }

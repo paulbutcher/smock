@@ -13,14 +13,12 @@ class ReturnValue(value: AnyRef = null) {
     value
   }
   
-  def count = expected
-  def count_=(n: Int) {
-    repeatForever = false
+  def setCount(n: Int) {
+    setNotForever
     expected = n
   }
   
-  def forever = repeatForever
-  def forever_=(b: Boolean) { repeatForever = b }
+  def setNotForever() { repeatForever = false }
     
   private var repeatForever = true
   private var expected = 1
@@ -31,14 +29,14 @@ class ReturnValues {
   
   def +=(value: AnyRef) {
     if (!values.isEmpty)
-      values.last.forever = false
+      values.last.setNotForever
 
     values += new ReturnValue(value)
   }
   
-  def count_=(n: Int) {
+  def setCount(n: Int) {
     defaultIfNecessary
-    values.last.count = n
+    values.last.setCount(n)
   }
   
   def next() = {
