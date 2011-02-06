@@ -4,12 +4,14 @@ import scala.collection.mutable.ListBuffer
 
 class Invocations {
   
-  def addReturnValue(returnValue: AnyRef) {
-    addInvocation(new Invocation(returnValue))
+  def addReturnValue(value: AnyRef) {
+    addInvocation
+    invocations.last.setReturnValue(value)
   }
   
   def addException(exception: Throwable) {
-    addInvocation(new ThrowingInvocation(exception))
+    addInvocation
+    invocations.last.setException(exception)
   }
   
   def setCount(n: Int) {
@@ -36,11 +38,11 @@ class Invocations {
         throw new ExpectationException("put a sensible message here")
   }
   
-  private def addInvocation(invocation: AbstractInvocation) {
+  private def addInvocation() {
     if (!invocations.isEmpty)
       invocations.last.setNotForever
 
-    invocations += invocation
+    invocations += new Invocation
   }
   
   private def defaultIfNecessary() {
@@ -49,7 +51,7 @@ class Invocations {
       invocations += new Invocation
   }
   
-  private val invocations = new ListBuffer[AbstractInvocation]
+  private val invocations = new ListBuffer[Invocation]
   private val iterator = invocations.iterator
-  private var current: AbstractInvocation = _
+  private var current: Invocation = _
 }
