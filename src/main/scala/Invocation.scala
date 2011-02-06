@@ -1,6 +1,6 @@
 package com.paulbutcher.smock
 
-class Invocation(value: AnyRef = null) {
+class Invocation(returnValue: AnyRef = null) {
   
   def hasNext = repeatForever || actual < expected
 
@@ -8,7 +8,7 @@ class Invocation(value: AnyRef = null) {
     if (!hasNext)
       throw new NoSuchElementException
     actual += 1
-    value
+    returnValue
   }
   
   def setCount(n: Int) {

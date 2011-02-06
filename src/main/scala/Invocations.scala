@@ -4,16 +4,16 @@ import scala.collection.mutable.ListBuffer
 
 class Invocations {
   
-  def +=(value: AnyRef) {
-    if (!values.isEmpty)
-      values.last.setNotForever
+  def +=(returnValue: AnyRef) {
+    if (!invocations.isEmpty)
+      invocations.last.setNotForever
 
-    values += new Invocation(value)
+    invocations += new Invocation(returnValue)
   }
   
   def setCount(n: Int) {
     defaultIfNecessary
-    values.last.setCount(n)
+    invocations.last.setCount(n)
   }
   
   def next() = {
@@ -30,18 +30,18 @@ class Invocations {
   def verify() {
     defaultIfNecessary
 
-    for (value <- values)
-      if (!value.isSatisfied)
+    for (invocation <- invocations)
+      if (!invocation.isSatisfied)
         throw new ExpectationException("put a sensible message here")
   }
   
   private def defaultIfNecessary() {
-    // Special case - if no return value has been set, create a default one
-    if (values.isEmpty)
-      values += new Invocation
+    // Special case - if no invocation has been set, create a default one
+    if (invocations.isEmpty)
+      invocations += new Invocation
   }
   
-  private val values = new ListBuffer[Invocation]
-  private val iterator = values.iterator
+  private val invocations = new ListBuffer[Invocation]
+  private val iterator = invocations.iterator
   private var current: Invocation = _
 }
