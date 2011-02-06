@@ -23,8 +23,8 @@ class Expectation(val name: Symbol) {
     this
   }
   
-  def returns(value: AnyRef) = {
-    invocations.addReturnValue(value)
+  def returns(value: Any) = {
+    invocations.addReturnValue(value.asInstanceOf[AnyRef])
     this
   }
   
