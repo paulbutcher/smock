@@ -6,26 +6,36 @@ class MockTest extends WordSpec with MockFactory {
   
   "A mock" should {
     
-    "Succeed if no expectations are setup and no methods are called" in {
+    "succeed if no expectations are setup and no methods are called" in {
       val t = mock[Turtle]
     }
     
-    "Fail if an unexpected method is called" in {
+    "fail if an unexpected method is called" in {
       val t = mock[Turtle]
       intercept[ExpectationException] { t.penDown }
     }
     
-    "Succeed if an expected method is called" in {
+    "succeed if an expected method is called" in {
       val t = mock[Turtle]
       t.expects('penDown)
       t.penDown
     }
     
-    "Return a value from a mock" in {
+    "return a value from a mock" in {
       val t = mock[Turtle]
-      val retval = (10.0, 1.2)
-      t.expects('getPosition).returns(retval)
-      expect(retval) { t.getPosition }
+      t.expects('getPosition).returns((10.0, 1.2))
+      expect((10.0, 1.2)) { t.getPosition }
+    }
+    
+    "return a sequence of values from a mock" in {
+      val t = mock[Turtle]
+      t.expects('getPosition).returns((1.0, 2.0)).then.
+        returns((3.0, 4.0)).then.
+        returns((5.0, 6.0))
+      
+      expect((1.0, 2.0)) { t.getPosition }
+      expect((3.0, 4.0)) { t.getPosition }
+      expect((5.0, 6.0)) { t.getPosition }
     }
   }
 }

@@ -11,7 +11,7 @@ class Expectations {
   
   def handle(name: Symbol, args: Array[AnyRef]) = {
     expectations.find(_.name == name) match {
-      case Some(expectation) => expectation.getNextReturnValue
+      case Some(expectation) => expectation.nextReturnValue
       case None => throw new ExpectationException(name +" not expected")
     }
   }

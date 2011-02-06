@@ -17,7 +17,7 @@ class Expectation(val name: Symbol) {
   def withArgs(args: Any*) = this //! TODO
   
   def returns(value: AnyRef) = {
-    returnValue = value
+    returnValues += value
     this
   }
   
@@ -25,7 +25,7 @@ class Expectation(val name: Symbol) {
   
   def then() = this
   
-  def getNextReturnValue = returnValue
+  def nextReturnValue = returnValues.next
   
-  private var returnValue: AnyRef = _
+  private val returnValues = new ReturnValues
 }
