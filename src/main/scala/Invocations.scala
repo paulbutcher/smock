@@ -2,38 +2,13 @@ package com.paulbutcher.smock
 
 import scala.collection.mutable.ListBuffer
 
-class ReturnValue(value: AnyRef = null) {
-  
-  def hasNext = repeatForever || actual < expected
-
-  def next() = {
-    if (!hasNext)
-      throw new NoSuchElementException
-    actual += 1
-    value
-  }
-  
-  def setCount(n: Int) {
-    setNotForever
-    expected = n
-  }
-  
-  def setNotForever() { repeatForever = false }
-  
-  def isSatisfied = (repeatForever && actual > 0) || actual == expected
-    
-  private var repeatForever = true
-  private var expected = 1
-  private var actual = 0
-}
-
-class ReturnValues {
+class Invocations {
   
   def +=(value: AnyRef) {
     if (!values.isEmpty)
       values.last.setNotForever
 
-    values += new ReturnValue(value)
+    values += new Invocation(value)
   }
   
   def setCount(n: Int) {
@@ -63,10 +38,10 @@ class ReturnValues {
   private def defaultIfNecessary() {
     // Special case - if no return value has been set, create a default one
     if (values.isEmpty)
-      values += new ReturnValue
+      values += new Invocation
   }
   
-  private val values = new ListBuffer[ReturnValue]
+  private val values = new ListBuffer[Invocation]
   private val iterator = values.iterator
-  private var current: ReturnValue = _
+  private var current: Invocation = _
 }

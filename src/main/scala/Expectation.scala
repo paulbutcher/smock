@@ -3,7 +3,7 @@ package com.paulbutcher.smock
 class Expectation(val name: Symbol) {
   
   def times(n: Int) = {
-    returnValues.setCount(n)
+    invocations.setCount(n)
     this
   }
   def never() = times(0)
@@ -21,7 +21,7 @@ class Expectation(val name: Symbol) {
   def withArgs(args: Any*) = this //! TODO
   
   def returns(value: AnyRef) = {
-    returnValues += value
+    invocations += value
     this
   }
   
@@ -30,14 +30,14 @@ class Expectation(val name: Symbol) {
   def then() = this
   
   def nextReturnValue = try {
-    returnValues.next
+    invocations.next
   } catch {
     case _: NoSuchElementException => throw new ExpectationException("put a sensible message here")
   }
   
   def verify() {
-    returnValues.verify
+    invocations.verify
   }
   
-  private val returnValues = new ReturnValues
+  private val invocations = new Invocations
 }
