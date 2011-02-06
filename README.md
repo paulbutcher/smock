@@ -22,7 +22,7 @@ Existing Java mocking libraries work with Scala but:
 * Unsurprisingly, they don't handle things that Java doesn't support, such as curried functions, higher-order functions, etc.
 * For my sins, I find myself developing on Android, which none of the Java mocking libraries support (because the Dalvik VM doesn't support runtime code generation).
 
-Smock's inner workings were inspired by `scala.tools.reflect.Mock` written by Paul Philips in the Scala compiler. In particular, there's no dependency on [cglib](http://cglib.sourceforge.net/), meaning that it runs just fine on Android.
+Smock's inner workings were inspired by [`scala.tools.reflect.Mock`](http://lampsvn.epfl.ch/svn-repos/scala/scala/trunk/src/compiler/scala/tools/reflect/Mock.scala) written by Paul Philips in the Scala compiler. In particular, there's no dependency on [cglib](http://cglib.sourceforge.net/), meaning that it runs just fine on Android.
 
 ## To do
 
