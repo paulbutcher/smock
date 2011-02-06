@@ -25,7 +25,10 @@ class Expectation(val name: Symbol) {
     this
   }
   
-  def throws(exception: Throwable) = this //! TODO
+  def throws(exception: Throwable) = {
+    invocations.addException(exception)
+    this
+  }
   
   def then() = this
   

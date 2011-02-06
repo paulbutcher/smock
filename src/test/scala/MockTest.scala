@@ -119,5 +119,11 @@ class MockTest extends WordSpec with MockFactory {
       t.penDown
       intercept[ExpectationException] { verifyExpectations }
     }
+    
+    "throw an exception if told to do so" in {
+      val t = mock[Turtle]
+      t.expects('forward).throws(new RuntimeException("too far"))
+      intercept[RuntimeException] { t.forward(10.0) }
+    }
   }
 }

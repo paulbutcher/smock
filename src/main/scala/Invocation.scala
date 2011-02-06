@@ -1,6 +1,6 @@
 package com.paulbutcher.smock
 
-class Invocation(returnValue: AnyRef = null) {
+abstract class AbstractInvocation {
   
   def hasNext = repeatForever || actual < expected
 
@@ -19,8 +19,17 @@ class Invocation(returnValue: AnyRef = null) {
   def setNotForever() { repeatForever = false }
   
   def isSatisfied = (repeatForever && actual > 0) || actual == expected
+  
+  protected def returnValue: AnyRef
     
-  private var repeatForever = true
-  private var expected = 1
-  private var actual = 0
+  protected var repeatForever = true
+  protected var expected = 1
+  protected var actual = 0
+}
+
+class Invocation(protected val returnValue: AnyRef = null) extends AbstractInvocation
+
+class ThrowingInvocation(exception: Throwable) extends AbstractInvocation {
+  
+  override protected def returnValue: AnyRef = throw exception
 }
