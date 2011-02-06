@@ -32,3 +32,4 @@ Smock's inner workings were inspired by [`scala.tools.reflect.Mock`](http://lamp
 * Argument matchers
 * Specification of call ordering
 * Android
+* Higher-order functions
