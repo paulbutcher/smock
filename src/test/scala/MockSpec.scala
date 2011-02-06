@@ -16,7 +16,6 @@ class MockSpec extends WordSpec with MockFactory {
     }
     
     "Succeed if an expected method is called" in {
-      
       val t = mock[Turtle]
       t.expects('penDown)
       t.penDown

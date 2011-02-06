@@ -8,9 +8,4 @@ class Expectations {
   def add(expectation: Expectation) {
     expectations += expectation
   }
-  
-  def in(test: => Unit) {
-    test
-    // TODO - verify expectations
-  }
 }
