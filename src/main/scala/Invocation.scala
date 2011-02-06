@@ -6,12 +6,18 @@ class Invocation {
   
   def setException(e: Throwable) { exception = e }
   
-  def hasNext = repeatForever || actual < expected
+  def setArguments(a: Seq[AnyRef]) { expectedArguments = a }
+  
+  def exhausted = !repeatForever && actual >= expected
 
-  def next() = {
-    if (!hasNext)
+  def handle(arguments: Array[AnyRef]) = {
+    if (exhausted)
       throw new NoSuchElementException
     actual += 1
+    
+    if (expectedArguments != null && !(arguments sameElements expectedArguments))
+      throw new ExpectationException("put a sensible message here")
+
     if (exception != null)
       throw exception
     returnValue
@@ -28,6 +34,7 @@ class Invocation {
   
   private var returnValue: AnyRef = _
   private var exception: Throwable = _
+  private var expectedArguments: Seq[AnyRef] = _
     
   private var repeatForever = true
   private var expected = 1

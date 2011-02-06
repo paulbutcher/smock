@@ -18,7 +18,10 @@ class Expectation(val name: Symbol) {
   def atMost(n: Int) = this //! TODO
   def atMostOnce() = atMost(1)
   
-  def withArgs(args: Any*) = this //! TODO
+  def withArgs(arguments: Any*) = {
+    invocations.addArguments(arguments.map(_.asInstanceOf[AnyRef]))
+    this
+  }
   
   def returns(value: AnyRef) = {
     invocations.addReturnValue(value)
@@ -32,8 +35,8 @@ class Expectation(val name: Symbol) {
   
   def then() = this
   
-  def nextReturnValue = try {
-    invocations.next
+  def handle(args: Array[AnyRef]) = try {
+    invocations.handle(args)
   } catch {
     case _: NoSuchElementException => throw new ExpectationException("put a sensible message here")
   }

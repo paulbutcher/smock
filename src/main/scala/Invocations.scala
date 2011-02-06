@@ -14,20 +14,23 @@ class Invocations {
     invocations.last.setException(exception)
   }
   
+  def addArguments(arguments: Seq[AnyRef]) {
+    addInvocation
+    invocations.last.setArguments(arguments)
+  }
+  
   def setCount(n: Int) {
     defaultIfNecessary
     invocations.last.setCount(n)
   }
   
-  def next() = {
+  def handle(arguments: Array[AnyRef]) = {
     defaultIfNecessary
     
-    if (current != null && current.hasNext) {
-      current.next
-    } else {
+    if (current == null || current.exhausted)
       current = iterator.next
-      current.next
-    }
+    
+    current.handle(arguments)
   }
   
   def verify() {

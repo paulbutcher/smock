@@ -125,5 +125,17 @@ class MockTest extends WordSpec with MockFactory {
       t.expects('forward).throws(new RuntimeException("too far"))
       intercept[RuntimeException] { t.forward(10.0) }
     }
+    
+    "succeed if the right arguments are passed" in {
+      val t = mock[Turtle]
+      t.expects('setPosition).withArgs(1.0, 2.0)
+      t.setPosition(1.0, 2.0)
+    }
+    
+    "fail if the wrong arguments are passed" in {
+      val t = mock[Turtle]
+      t.expects('setPosition).withArgs(1.0, 2.0)
+      intercept[ExpectationException] { t.setPosition(1.0, 3.0) }
+    }
   }
 }
