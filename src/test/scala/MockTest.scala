@@ -80,8 +80,8 @@ class MockTest extends WordSpec with MockFactory {
     
     "return a sequence of values" in {
       val t = mock[Turtle]
-      t.expects('getPosition).returns((1.0, 2.0)).then.
-        returns((3.0, 4.0)).then.
+      t.expects('getPosition).returns((1.0, 2.0)).
+        returns((3.0, 4.0)).
         returns((5.0, 6.0))
       
       expect((1.0, 2.0)) { t.getPosition }
@@ -142,6 +142,13 @@ class MockTest extends WordSpec with MockFactory {
       val t = mock[Turtle]
       t.expects('forward).withArgs(10.0).returns((10.0, 0.0))
       expect((10.0, 0.0)) { t.forward(10.0) }
+    }
+    
+    "sequence different types of expectation with then" in {
+      val t = mock[Turtle]
+      t.expects('forward).withArgs(10.0).then.returns((20.0, 20.0))
+      t.forward(10.0)
+      expect((20.0, 20.0)) { t.forward(42.0) }
     }
   }
 }

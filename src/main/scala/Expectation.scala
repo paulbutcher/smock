@@ -33,7 +33,10 @@ class Expectation(val name: Symbol) {
     this
   }
   
-  def then() = this
+  def then() = {
+    invocations.addInvocation
+    this
+  }
   
   def handle(args: Array[AnyRef]) = try {
     invocations.handle(args)

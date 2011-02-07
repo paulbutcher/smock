@@ -39,7 +39,7 @@ class Invocations {
         throw new ExpectationException("put a sensible message here")
   }
   
-  private def addInvocation() {
+  def addInvocation() {
     if (!invocations.isEmpty)
       invocations.last.setNotForever
 
