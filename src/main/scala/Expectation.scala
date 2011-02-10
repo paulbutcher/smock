@@ -41,7 +41,7 @@ class Expectation(val name: Symbol) {
   def handle(args: Array[AnyRef]) = try {
     invocations.handle(args)
   } catch {
-    case _: NoSuchElementException => throw new ExpectationException("put a sensible message here")
+    case e: NoSuchElementException => throw new ExpectationException("put a sensible message here", e)
   }
   
   def verify() {

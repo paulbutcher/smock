@@ -1,3 +1,3 @@
 package com.paulbutcher.smock
 
-case class ExpectationException(msg: String) extends RuntimeException(msg)
+case class ExpectationException(msg: String, cause: Throwable = null) extends RuntimeException(msg, cause)
