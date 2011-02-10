@@ -18,7 +18,7 @@ trait MockFactory extends BeforeAndAfterEach { this: Suite =>
   }
   
   protected def mock[T: ClassManifest] = {
-    Proxy.create(classManifest[T].erasure, classOf[Mock]) { (name: Symbol, args: Array[AnyRef]) =>
+    Proxy.create(classOf[Mock], classManifest[T].erasure) { (name: Symbol, args: Array[AnyRef]) =>
       name match {
         case 'expects => createExpectation(args(0).asInstanceOf[Symbol])
         case _ => expectations.handle(name, args)
