@@ -150,5 +150,18 @@ class MockTest extends WordSpec with MockFactory {
       t.forward(10.0)
       expect((20.0, 20.0)) { t.forward(42.0) }
     }
+    
+    "Return null if no return value is specified" in {
+      val t = mock[Turtle]
+      t.expects('getPosition)
+      expect(null) { t.getPosition }
+    }
+    
+    "Allow a return value of null to be specified" in {
+      val t = mock[Turtle]
+      t.expects('getPosition).returns(null).once.returns(null).once
+      t.getPosition
+      t.getPosition
+    }
   }
 }
