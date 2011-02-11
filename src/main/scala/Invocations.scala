@@ -36,7 +36,7 @@ class Invocations {
   def verify() {
     for (invocation <- invocations)
       if (!invocation.isSatisfied)
-        throw new ExpectationException("put a sensible message here")
+        throw new ExpectationException(invocation.toString)
   }
   
   def addInvocation() {

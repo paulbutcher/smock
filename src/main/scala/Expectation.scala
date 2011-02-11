@@ -38,14 +38,16 @@ class Expectation(val name: Symbol) {
     this
   }
   
-  def handle(args: Array[AnyRef]) = try {
-    invocations.handle(args)
-  } catch {
-    case e: NoSuchElementException => throw new ExpectationException("put a sensible message here", e)
-  }
+  def handle(args: Array[AnyRef]) = translateException(invocations.handle(args))
   
   def verify() {
-    invocations.verify
+    translateException(invocations.verify)
+  }
+  
+  private def translateException[T](f: => T) = try {
+    f
+  } catch {
+    case e: Exception => throw new ExpectationException("Expected "+ name.name +" "+ e.getMessage)
   }
   
   private val invocations = new Invocations

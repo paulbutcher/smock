@@ -36,6 +36,10 @@ class Invocation {
   
   def isSatisfied = (repeatForever && actual > 0) || actual == expected
   
+  def argumentsString = if (hasArguments) "withArgs ("+ expectedArguments +") " else ""
+  def expectedString = if (repeatForever) ">0" else expected.toString
+  override def toString = argumentsString + expectedString +" times, actual: "+ actual.toString
+  
   private var returnValue: Option[AnyRef] = None
   private var exception: Option[Throwable] = None
   private var expectedArguments: Option[Seq[AnyRef]] = None
