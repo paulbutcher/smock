@@ -38,13 +38,13 @@ class Expectation(val name: Symbol) {
     this
   }
   
-  def handle(args: Array[AnyRef]) = translateException(invocations.handle(args))
+  def handle(args: Array[AnyRef]) = decorateException(invocations.handle(args))
   
   def verify() {
-    translateException(invocations.verify)
+    decorateException(invocations.verify)
   }
   
-  private def translateException[T](f: => T) = try {
+  private def decorateException[T](f: => T) = try {
     f
   } catch {
     case e: Exception => throw new ExpectationException("Expected "+ name.name +" "+ e.getMessage)
